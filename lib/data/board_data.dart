@@ -1,45 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:keeropkeer/widget/kok_field.dart';
 
-enum KokFieldType { NONE, STAR, TREASURE }
-
-class KokField {
-  final int x;
-  final int y;
-  final Color col;
-  final KokFieldType type;
-
-  KokField(this.x, this.y, this.col, {this.type = KokFieldType.NONE});
-
-  static Widget buildWidget(int index) {
-    var _kokFld = kokFields[index];
-
-    Image? _image;
-    if (_kokFld.type == KokFieldType.STAR)
-      _image = Image(image: AssetImage('assets/star.jpg'));
-    else if (_kokFld.type == KokFieldType.TREASURE)
-      _image = Image(image: AssetImage('assets/treasure.jpg'));
-
-
-    if (_image == null) {
-      return Container(
-        width: 40,
-        height: 40,
-        color: _kokFld.col,
-      );
-    } else {
-      return Container(
-        width: 40,
-        height: 40,
-        color: _kokFld.col,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Center(child: _image,),
-        ),
-      );
-    }
-  }
-}
 
 const RED = Colors.redAccent;
 const BLUE = Colors.lightBlue;
@@ -155,5 +116,3 @@ var kokFields = [
   KokField(14, 6, GREEN),
 ];
 
-List<Widget> buildKokFields() =>
-    List.generate(15 * 7, (index) => KokField.buildWidget(index));
