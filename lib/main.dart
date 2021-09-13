@@ -12,17 +12,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Column(
-          children: <Widget>[
-            _verSpace(1),
-            _kokBoard(),
-            _verSpace(10),
-            _dices(),
-            // _verSpace(20)
-          ],
-        )
-
-       
-        );
+      children: <Widget>[
+        _verSpace(1),
+        _kokBoard(),
+        _verSpace(10),
+        _dices(),
+        // _verSpace(20)
+      ],
+    ));
   }
 
   Container _horSpace(double? w) => Container(
@@ -34,7 +31,7 @@ class MyApp extends StatelessWidget {
       width: 210,
       height: 60,
       child: GridView.count(
-        crossAxisCount: 6,
+        crossAxisCount: 7,
         crossAxisSpacing: 5,
         mainAxisSpacing: 1,
         children: buildDices(),
@@ -56,11 +53,10 @@ class MyApp extends StatelessWidget {
   }
 
   Widget _verSpace(double? w) {
-    return 
-        Container(
-          color: Colors.green,
-          width: w,
-          height: w,
-        );
+    return Container(
+      color: Colors.green,
+      width: w,
+      height: w,
+    );
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:keeropkeer/widget/kok_field.dart';
 
-
 const RED = Colors.redAccent;
 const BLUE = Colors.lightBlue;
 const GREEN = Colors.greenAccent;
@@ -115,4 +114,3 @@ var kokFields = [
   KokField(13, 6, GREEN),
   KokField(14, 6, GREEN),
 ];
-
