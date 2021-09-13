@@ -38,116 +38,74 @@ class _KokFieldState extends State<KokField> {
 
   @override
   Widget build(BuildContext context) {
-    Image? _image = _getImage();
-
-    if (_image != null) {
-      return Stack(
-        alignment: Alignment.topRight,
-        children: [
-          TextButton(
-            style: TextButton.styleFrom(
-              padding: EdgeInsets.zero,
-              backgroundColor: col,
-              textStyle: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-            ),
-            onPressed: () {},
-            child: Text(''),
-          ),
-          Container(
-              child: Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Center(
-              child: _image,
-            ),
-          )),
-        ],
-      );
-    } else {
-      if (this.selected) {
-        return TextButton(
-            style: ButtonStyle(
-              foregroundColor: MaterialStateProperty.all<Color>(col),
-              overlayColor: MaterialStateProperty.resolveWith<Color>(
-                (Set<MaterialState> states) {
-                  if (states.contains(MaterialState.hovered))
-                    return Colors.blue.withOpacity(0.04);
-                  if (states.contains(MaterialState.focused) ||
-                      states.contains(MaterialState.pressed))
-                    return Colors.blue.withOpacity(0.12);
-                  return col;
-                },
-              ),
-            ),
-            onPressed: () {},
-            child: Text('X'));
-      } else {
-        return Container(
-          color: this.col,
-        );
-      }
-    }
+    return _buildFieldWidget();
   }
 
   Widget _buildFieldWidget() {
-    Image? _image = _getImage();
-
-    List<Widget> _widgetList = [];
-
-    if (this.selected) {
-      if (_image == null) {
-        _widgetList = [_notClickableWidget(), _selectedWidget()];
-      } else {
-        _widgetList = [_notClickableWidget(), _specialWidget(), _selectedWidget()];
-      }
-    } else {
-        if (_image == null) {
-        _widgetList = [_clickableWidget(), _selectedWidget()];
-      } else {
-        _widgetList = [_clickableWidget(), _specialWidget(), _selectedWidget()];
-      }
-    }
-
     return Stack(
       alignment: Alignment.topRight,
-      children: _widgetList,
+      children: _buildWidgetList(),
     );
   }
 
-  Widget _clickableWidget() {
+  List<Widget> _buildWidgetList() {
+    Image? _image = _getImage();
+    List<Widget> _widgetList = [];
+
+    if (_image == null) {
+      _widgetList = [_colorWidget()];
+    } else {
+      _widgetList = [_colorWidget(), _specialWidget()];
+    }
+
+    if (this.selected) {
+      _widgetList.add(_selectedWidget());
+    }
+
+    return _widgetList;
+  }
+
+  Widget _colorWidget() {
     return TextButton(
       style: TextButton.styleFrom(
         padding: EdgeInsets.zero,
         backgroundColor: col,
         textStyle: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
       ),
-      onPressed: () {},
+      onPressed: _selectField,
       child: Text(''),
     );
   }
 
-  Widget _notClickableWidget() {
-    return Container(
-      color: this.col,
-    );
-  }
+  // Widget _notClickableWidget() {
+  //   return Container(
+  //     color: this.col,
+  //   );
+  // }
 
   Widget _specialWidget() {
-    return Container(
-        child: Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: Center(
-        child: _getImage(),
+    return MaterialButton(
+      padding: EdgeInsets.all(8.0),
+      // textColor: Colors.white,
+      // splashColor: Colors.greenAccent,
+      // elevation: 8.0,
+      child: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/star.png'),
+            // fit: BoxFit.cover),
+          ),
+        ),
       ),
-    ));
+      onPressed: _selectField,
+    );
   }
 
   Widget _selectedWidget() {
     return Container(
         child: Padding(
       padding: const EdgeInsets.all(5.0),
-      child: Center(
-        child: _getImage(),
-      ),
+      child: Center(child: Image(image: AssetImage('assets/selected.png'))),
     ));
   }
 
@@ -158,5 +116,11 @@ class _KokFieldState extends State<KokField> {
     else if (type == KokFieldType.TREASURE)
       _image = Image(image: AssetImage('assets/treasure.png'));
     return _image;
+  }
+
+  void _selectField() {
+    setState(() {
+      this.selected = !this.selected;
+    });
   }
 }
